@@ -1,0 +1,11 @@
+node_modules/
+dist/
+.env
+*.log
+data/
+test-results/
+coverage/
+.husky/_/
+*.tsbuildinfo
+.env.*
+!.env.example

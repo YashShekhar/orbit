@@ -1,0 +1,9 @@
+node_modules/
+dist/
+data/
+artifacts/
+coverage/
+test-results/
+package-lock.json
+*.log
+.husky/_/
