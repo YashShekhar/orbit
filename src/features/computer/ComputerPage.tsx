@@ -1,10 +1,113 @@
 import { useState } from 'react';
-import { ArrowRight, FolderOpen, Monitor, Play, ShieldCheck, Globe, RefreshCw, Zap } from 'lucide-react';
+import {
+  ArrowRight,
+  FolderOpen,
+  Monitor,
+  Play,
+  ShieldCheck,
+  Globe,
+  RefreshCw,
+  Zap,
+} from 'lucide-react';
 import type { ComputerState } from '../../../shared/types';
 import { date } from '../../lib/format';
 import { Empty } from '../../components/ui/Empty';
 
-export function ComputerView({ computer, diagnostic }: { computer: ComputerState; diagnostic: () => Promise<void> }) {
+export function ComputerView({
+  computer,
+  diagnostic,
+}: {
+  computer: ComputerState;
+  diagnostic: () => Promise<void>;
+}) {
   const [tick, setTick] = useState(Date.now());
-  return <><div className="page-heading"><div><div className="eyebrow">A PLACE TO DO THE WORK</div><h1>Your team’s computer</h1><p>A persistent browser and shared files, right here on your machine.</p></div><button className="button subtle" onClick={() => setTick(Date.now())}><RefreshCw size={16}/> Refresh screen</button></div><div className="computer-layout"><div className="panel browser-panel"><div className="browser-toolbar"><div className="window-dots"><i/><i/><i/></div><span><Globe size={14}/>{computer.latest?.url || 'Agent browser'}</span><span className="mini-label">{computer.running ? 'CONNECTED' : 'STANDBY'}</span></div>{computer.latest ? <img className="browser-screenshot" src={`/api/screenshot?taskId=${computer.latest.taskId}&t=${tick}`} alt={`Agent browser showing ${computer.latest.title}`} onError={e => { e.currentTarget.alt = 'Browser screen unavailable. Run a new browsing task and refresh.'; }}/> : <Empty icon={Monitor} title="Their next task starts here" action={<button className="button primary" onClick={diagnostic}><Play size={15}/> Run system check</button>}>The browser starts when a bot needs it.<br/>Try a real browser and file check—no model required.</Empty>}<div className="browser-footer"><span className="dot"/>{computer.latest ? `${computer.latest.title} · ${date(computer.latest.at)}` : 'A separate browser profile keeps agent sessions persistent.'}</div></div><div className="computer-info"><section className="panel"><h3><FolderOpen size={18}/> Shared files</h3><p>All teammates can read and write artifacts in this directory.</p><code>{computer.workspace}</code></section><section className="panel"><h3><ShieldCheck size={18}/> Action approvals</h3><p>Every shell command and browser interaction asks for your approval in its task.</p><p>Shell commands run on this host. The browser is a separate profile, not a virtual machine.</p></section><section className="panel"><h3><Zap size={18}/> Check the tools</h3><p>Create a file, read it back, and open a page in the actual agent browser.</p><button className="text-button" onClick={diagnostic}>Run system check <ArrowRight size={14}/></button></section></div></div></>;
+  return (
+    <>
+      <div className="page-heading">
+        <div>
+          <div className="eyebrow">A PLACE TO DO THE WORK</div>
+          <h1>Your team’s computer</h1>
+          <p>A persistent browser and shared files, right here on your machine.</p>
+        </div>
+        <button className="button subtle" onClick={() => setTick(Date.now())}>
+          <RefreshCw size={16} /> Refresh screen
+        </button>
+      </div>
+      <div className="computer-layout">
+        <div className="panel browser-panel">
+          <div className="browser-toolbar">
+            <div className="window-dots">
+              <i />
+              <i />
+              <i />
+            </div>
+            <span>
+              <Globe size={14} />
+              {computer.latest?.url || 'Agent browser'}
+            </span>
+            <span className="mini-label">{computer.running ? 'CONNECTED' : 'STANDBY'}</span>
+          </div>
+          {computer.latest ? (
+            <img
+              className="browser-screenshot"
+              src={`/api/screenshot?taskId=${computer.latest.taskId}&t=${tick}`}
+              alt={`Agent browser showing ${computer.latest.title}`}
+              onError={(e) => {
+                e.currentTarget.alt =
+                  'Browser screen unavailable. Run a new browsing task and refresh.';
+              }}
+            />
+          ) : (
+            <Empty
+              icon={Monitor}
+              title="Their next task starts here"
+              action={
+                <button className="button primary" onClick={diagnostic}>
+                  <Play size={15} /> Run system check
+                </button>
+              }
+            >
+              The browser starts when a bot needs it.
+              <br />
+              Try a real browser and file check—no model required.
+            </Empty>
+          )}
+          <div className="browser-footer">
+            <span className="dot" />
+            {computer.latest
+              ? `${computer.latest.title} · ${date(computer.latest.at)}`
+              : 'A separate browser profile keeps agent sessions persistent.'}
+          </div>
+        </div>
+        <div className="computer-info">
+          <section className="panel">
+            <h3>
+              <FolderOpen size={18} /> Shared files
+            </h3>
+            <p>All teammates can read and write artifacts in this directory.</p>
+            <code>{computer.workspace}</code>
+          </section>
+          <section className="panel">
+            <h3>
+              <ShieldCheck size={18} /> Action approvals
+            </h3>
+            <p>Every shell command and browser interaction asks for your approval in its task.</p>
+            <p>
+              Shell commands run on this host. The browser is a separate profile, not a virtual
+              machine.
+            </p>
+          </section>
+          <section className="panel">
+            <h3>
+              <Zap size={18} /> Check the tools
+            </h3>
+            <p>Create a file, read it back, and open a page in the actual agent browser.</p>
+            <button className="text-button" onClick={diagnostic}>
+              Run system check <ArrowRight size={14} />
+            </button>
+          </section>
+        </div>
+      </div>
+    </>
+  );
 }

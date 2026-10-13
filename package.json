@@ -15,11 +15,12 @@
     "test": "npm run test:server && npm run test:client",
     "test:server": "node --import tsx --test \"tests/server/*.test.ts\"",
     "test:client": "vitest run",
+    "test:production": "node --import tsx --test \"tests/runtime/*.test.ts\"",
     "test:watch": "vitest",
     "test:coverage": "npm run test:server:coverage && npm run test:client:coverage",
     "test:server:coverage": "c8 node --import tsx --test \"tests/server/*.test.ts\"",
     "test:client:coverage": "vitest run --coverage",
-    "check": "npm run format:check && npm run lint && npm run test && npm run build",
+    "check": "npm run format:check && npm run lint && npm run test && npm run build && npm run test:production",
     "security:audit": "npm audit --audit-level=high",
     "prepare": "node scripts/install-hooks.ts"
   },
@@ -79,9 +80,9 @@
     ],
     "reports-dir": "coverage/server",
     "check-coverage": true,
-    "lines": 65,
-    "functions": 65,
-    "branches": 60,
-    "statements": 65
+    "lines": 80,
+    "functions": 80,
+    "branches": 75,
+    "statements": 80
   }
 }

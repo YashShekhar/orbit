@@ -1,27 +1,82 @@
-.settings-layout{display:grid;grid-template-columns:minmax(0,1.8fr) minmax(220px,1fr);gap:25px;align-items:start}
+.settings-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.8fr) minmax(220px, 1fr);
+  gap: 25px;
+  align-items: start;
+}
 
-.settings-panel{padding:27px}
+.settings-panel {
+  padding: 27px;
+}
 
-.settings-section-title{display:flex;align-items:center;gap:13px;margin-bottom:27px}
+.settings-section-title {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  margin-bottom: 27px;
+}
 
-.settings-section-title h2{font-size:17px}
+.settings-section-title h2 {
+  font-size: 17px;
+}
 
-.settings-section-title p{font-size:11px;color:#8e9f80;margin-top:7px}
+.settings-section-title p {
+  font-size: 11px;
+  color: #8e9f80;
+  margin-top: 7px;
+}
 
-.input-action{display:flex;align-items:center;gap:8px}
+.input-action {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
 
-.input-action .button{margin-top:9px;align-self:stretch}
+.input-action .button {
+  margin-top: 9px;
+  align-self: stretch;
+}
 
-.settings-footer{border-top:1px solid var(--border);padding-top:20px;display:flex;align-items:center;justify-content:space-between;gap:15px}
+.settings-footer {
+  border-top: 1px solid var(--border);
+  padding-top: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+}
 
-.settings-footer>span{font-size:10px;color:#8da778;display:flex;align-items:center;gap:6px;overflow-wrap:anywhere;max-width:60%}
+.settings-footer > span {
+  font-size: 10px;
+  color: #8da778;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  overflow-wrap: anywhere;
+  max-width: 60%;
+}
 
-.settings-help>.panel{padding:25px;margin-bottom:18px}
+.settings-help > .panel {
+  padding: 25px;
+  margin-bottom: 18px;
+}
 
-.settings-help h3{font-size:15px;margin:18px 0 14px}
+.settings-help h3 {
+  font-size: 15px;
+  margin: 18px 0 14px;
+}
 
-.settings-help svg{color:#a4c38b}
+.settings-help svg {
+  color: #a4c38b;
+}
 
-.settings-help p{font-size:11px;line-height:1.9;color:#91a481;margin:11px 0}
+.settings-help p {
+  font-size: 11px;
+  line-height: 1.9;
+  color: #91a481;
+  margin: 11px 0;
+}
 
-.settings-help .text-button{margin-top:10px}
+.settings-help .text-button {
+  margin-top: 10px;
+}

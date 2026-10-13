@@ -12,10 +12,14 @@ export function useWorkspace(notify: Notify) {
   const refresh = useCallback(async () => {
     // A fresh response after a mutation must supersede any older polling request.
     active.current?.abort();
-    const controller = new AbortController(); active.current = controller;
+    const controller = new AbortController();
+    active.current = controller;
     try {
       const next = await api<AppState>('/api/state', undefined, 'GET', controller.signal);
-      if (mounted.current && !controller.signal.aborted) { setState(next); setOffline(false); }
+      if (mounted.current && !controller.signal.aborted) {
+        setState(next);
+        setOffline(false);
+      }
     } catch {
       if (mounted.current && !controller.signal.aborted) setOffline(true);
     } finally {
@@ -25,12 +29,27 @@ export function useWorkspace(notify: Notify) {
   useEffect(() => {
     mounted.current = true;
     void refresh();
-    const interval = setInterval(() => { if (!active.current) void refresh(); }, 2000);
-    return () => { mounted.current = false; clearInterval(interval); active.current?.abort(); };
+    const interval = setInterval(() => {
+      if (!active.current) void refresh();
+    }, 2000);
+    return () => {
+      mounted.current = false;
+      clearInterval(interval);
+      active.current?.abort();
+    };
   }, [refresh]);
-  const act: Act = useCallback(async <T,>(url: string, data: unknown = {}, method = 'POST'): Promise<T | null> => {
-    try { const result = await api<T>(url, data, method); await refresh(); return result; }
-    catch (error) { notify(errorMessage(error), true); return null; }
-  }, [notify, refresh]);
+  const act: Act = useCallback(
+    async <T>(url: string, data: unknown = {}, method = 'POST'): Promise<T | null> => {
+      try {
+        const result = await api<T>(url, data, method);
+        await refresh();
+        return result;
+      } catch (error) {
+        notify(errorMessage(error), true);
+        return null;
+      }
+    },
+    [notify, refresh],
+  );
   return { state, offline, act };
 }

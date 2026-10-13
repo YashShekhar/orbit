@@ -1,25 +1,87 @@
-.routine-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:17px}
+.routine-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 17px;
+}
 
-.routine-card{padding:20px;margin-bottom:20px}
+.routine-card {
+  padding: 20px;
+  margin-bottom: 20px;
+}
 
-.routine-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:19px}
+.routine-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 19px;
+}
 
-.routine-card h3{font-size:16px}
+.routine-card h3 {
+  font-size: 16px;
+}
 
-.routine-prompt{color:#8c9d7f;font-size:11px;line-height:1.8;margin:12px 0 20px;white-space:pre-wrap;max-height:140px;overflow:auto}
+.routine-prompt {
+  color: #8c9d7f;
+  font-size: 11px;
+  line-height: 1.8;
+  margin: 12px 0 20px;
+  white-space: pre-wrap;
+  max-height: 140px;
+  overflow: auto;
+}
 
-.toggle{width:32px;height:19px;border:1px solid #526348;border-radius:20px;background:#2c3725;padding:2px}
+.toggle {
+  width: 32px;
+  height: 19px;
+  border: 1px solid #526348;
+  border-radius: 20px;
+  background: #2c3725;
+  padding: 2px;
+}
 
-.toggle>span{display:block;width:13px;height:13px;background:#899c7c;border-radius:50%;transition:transform .2s}
+.toggle > span {
+  display: block;
+  width: 13px;
+  height: 13px;
+  background: #899c7c;
+  border-radius: 50%;
+  transition: transform 0.2s;
+}
 
-.toggle.on{background:#b4d889;border-color:#b4d889}
+.toggle.on {
+  background: #b4d889;
+  border-color: #b4d889;
+}
 
-.toggle.on>span{background:#283d1a;transform:translateX(12px)}
+.toggle.on > span {
+  background: #283d1a;
+  transform: translateX(12px);
+}
 
-.routine-meta{display:flex;align-items:center;gap:7px;font-size:11px;color:#b6c8a8}
+.routine-meta {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 11px;
+  color: #b6c8a8;
+}
 
-.routine-meta>span:last-child{font-size:9px;color:#829a72;margin-left:auto}
+.routine-meta > span:last-child {
+  font-size: 9px;
+  color: #829a72;
+  margin-left: auto;
+}
 
-.routine-next{font-size:10px;color:#9bae8d;padding:17px 0}
+.routine-next {
+  font-size: 10px;
+  color: #9bae8d;
+  padding: 17px 0;
+}
 
-.routine-actions{border-top:1px solid var(--border);padding-top:12px;display:flex;justify-content:space-between;align-items:center}
+.routine-actions {
+  border-top: 1px solid var(--border);
+  padding-top: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
