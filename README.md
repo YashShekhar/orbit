@@ -4,7 +4,7 @@ A working Grok Bot-inspired application: persistent named agents, a shared brows
 
 ## Run
 
-Requires Node.js 22.18+ (22.x) or Node.js 24+. The checked-in `.nvmrc` selects Node 22.
+Requires Node.js 22.22.2+ (22.x), 24.15+ (24.x), or 26+. The checked-in `.nvmrc` selects Node 22. These minimums include the requirements of the test tooling.
 
 ```sh
 npm ci

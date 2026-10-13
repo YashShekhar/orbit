@@ -22,6 +22,8 @@ npm run security:audit
 
 Keep source in `.ts` or `.tsx`. Use `import type` for types. Server imports use `.js` specifiers so TypeScript emits modules Node can load; these refer to `.ts` source files during development. Keep secrets and generated files outside source control. Commit `package-lock.json` with dependency changes and use `npm ci` in CI.
 
+TypeScript is deliberately pinned to 6.0.3: `typescript-eslint` 8.71.2 declares a TypeScript peer range of `>=4.8.4 <6.1.0`, so TypeScript 7.0.2 cannot yet be installed as a supported combination. Recheck that peer range when upgrading the compiler; do not use `--force` or `--legacy-peer-deps` to bypass it. Other direct dependencies were checked against the npm registry's stable `latest` tags during this update.
+
 Add UI behavior inside the appropriate `src/features` directory. Keep reusable components free of feature-specific API calls. Add endpoints under `server/routes` with validation in the HTTP boundary. Place execution logic in services/tools rather than route handlers. Prefer explicit dependencies and small public interfaces over generic framework layers.
 
 Write regression tests for state transitions, failure handling, permissions, persistence, and asynchronous races. Server tests must use temporary directories and shut down services before deleting fixtures. Client tests live beside their feature or hook. Do not make normal tests depend on a paid model, external website, or the real `data/` directory.
