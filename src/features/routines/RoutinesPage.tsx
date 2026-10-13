@@ -5,4 +5,106 @@ import { date } from '../../lib/format';
 import { Avatar } from '../../components/ui/Avatar';
 import { Empty } from '../../components/ui/Empty';
 
-export function RoutinesPage({ agents, routines, act, openTask, setModal }: { agents: Agent[]; routines: Routine[]; act: Act; openTask: (id: string) => void; setModal: SetModal }) { const agentById = (id: string) => agents.find(a => a.id === id); return <><div className="page-heading"><div><div className="eyebrow">SET IT. LET IT WORK.</div><h1>Routines</h1><p>Give recurring work a reliable teammate.</p></div><button className="button primary" onClick={() => setModal({ type: 'routine' })}><Plus size={17}/> Create routine</button></div><div className="info-banner"><Clock3 size={18}/> Routines run while this server is on. Missed intervals run once when it comes back; overlapping runs are skipped.</div><div className="routine-grid">{routines.map(r => <article className="panel routine-card" key={r.id}><div className="routine-top"><span className="empty-icon"><Clock3 size={22}/></span><button className={`toggle ${r.enabled ? 'on' : ''}`} aria-label={`${r.enabled ? 'Pause' : 'Enable'} ${r.name}`} aria-pressed={r.enabled} onClick={() => act(`/api/routines/${r.id}`, { enabled: !r.enabled }, 'PATCH')}><span/></button></div><h3>{r.name}</h3><p className="routine-prompt">{r.prompt}</p><div className="routine-meta"><Avatar agent={agentById(r.agentId)} small/>{agentById(r.agentId)?.name}<span>Every {r.intervalMinutes >= 60 ? `${r.intervalMinutes / 60} hours` : `${r.intervalMinutes} minutes`}</span></div><div className="routine-next">{r.enabled ? `Next run ${date(r.nextRun)}` : 'Routine paused'}</div>{r.lastError && <p className="error-text">{r.lastError}</p>}<div className="routine-actions"><button className="text-button" onClick={async () => { const t = await act<Task>('/api/tasks', { agentId: r.agentId, prompt: r.prompt }); if (t) openTask(t.id); }}><Play size={14}/> Run now</button><button className="icon-button" aria-label={`Delete ${r.name}`} onClick={() => setModal({ type: 'deleteRoutine', routine: r })}><Trash2 size={16}/></button></div></article>)}</div>{!routines.length && <div className="panel"><Empty icon={Clock3} title="Put repeat work on autopilot" action={<button className="button subtle" onClick={() => setModal({ type: 'routine' })}><Plus size={16}/> Your first routine</button>}>Daily research, weekly reports, regular file reviews.<br/>Describe the job once, and choose an interval.</Empty></div>}</>; }
+export function RoutinesPage({
+  agents,
+  routines,
+  act,
+  openTask,
+  setModal,
+}: {
+  agents: Agent[];
+  routines: Routine[];
+  act: Act;
+  openTask: (id: string) => void;
+  setModal: SetModal;
+}) {
+  const agentById = (id: string) => agents.find((a) => a.id === id);
+  return (
+    <>
+      <div className="page-heading">
+        <div>
+          <div className="eyebrow">SET IT. LET IT WORK.</div>
+          <h1>Routines</h1>
+          <p>Give recurring work a reliable teammate.</p>
+        </div>
+        <button className="button primary" onClick={() => setModal({ type: 'routine' })}>
+          <Plus size={17} /> Create routine
+        </button>
+      </div>
+      <div className="info-banner">
+        <Clock3 size={18} /> Routines run while this server is on. Missed intervals run once when it
+        comes back; overlapping runs are skipped.
+      </div>
+      <div className="routine-grid">
+        {routines.map((r) => (
+          <article className="panel routine-card" key={r.id}>
+            <div className="routine-top">
+              <span className="empty-icon">
+                <Clock3 size={22} />
+              </span>
+              <button
+                className={`toggle ${r.enabled ? 'on' : ''}`}
+                aria-label={`${r.enabled ? 'Pause' : 'Enable'} ${r.name}`}
+                aria-pressed={r.enabled}
+                onClick={() => act(`/api/routines/${r.id}`, { enabled: !r.enabled }, 'PATCH')}
+              >
+                <span />
+              </button>
+            </div>
+            <h3>{r.name}</h3>
+            <p className="routine-prompt">{r.prompt}</p>
+            <div className="routine-meta">
+              <Avatar agent={agentById(r.agentId)} small />
+              {agentById(r.agentId)?.name}
+              <span>
+                Every{' '}
+                {r.intervalMinutes >= 60
+                  ? `${r.intervalMinutes / 60} hours`
+                  : `${r.intervalMinutes} minutes`}
+              </span>
+            </div>
+            <div className="routine-next">
+              {r.enabled ? `Next run ${date(r.nextRun)}` : 'Routine paused'}
+            </div>
+            {r.lastError && <p className="error-text">{r.lastError}</p>}
+            <div className="routine-actions">
+              <button
+                className="text-button"
+                onClick={async () => {
+                  const t = await act<Task>('/api/tasks', { agentId: r.agentId, prompt: r.prompt });
+                  if (t) openTask(t.id);
+                }}
+              >
+                <Play size={14} /> Run now
+              </button>
+              <button
+                className="icon-button"
+                aria-label={`Delete ${r.name}`}
+                onClick={() => setModal({ type: 'deleteRoutine', routine: r })}
+              >
+                <Trash2 size={16} />
+              </button>
+            </div>
+          </article>
+        ))}
+      </div>
+      {!routines.length && (
+        <div className="panel">
+          <Empty
+            icon={Clock3}
+            title="Put repeat work on autopilot"
+            action={
+              <button className="button subtle" onClick={() => setModal({ type: 'routine' })}>
+                <Plus size={16} /> Your first routine
+              </button>
+            }
+          >
+            Daily research, weekly reports, regular file reviews.
+            <br />
+            Describe the job once, and choose an interval.
+          </Empty>
+        </div>
+      )}
+    </>
+  );
+}

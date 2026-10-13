@@ -1,4 +1,45 @@
 import { Settings2, ChevronRight, Menu } from 'lucide-react';
 import type { Page } from '../../app/types';
 
-export function Topbar({ page, offline, navigate, setMobile }: { page: Page; offline: boolean; navigate: (page: Page) => void; setMobile: (open: boolean) => void }) { return <header className="topbar"><div className="breadcrumb"><button className="icon-button mobile-menu" aria-label="Open menu" onClick={() => setMobile(true)}><Menu size={20}/></button><span>Workspace</span><ChevronRight size={13}/><strong>{page}</strong></div><div className="topbar-actions"><span className="local-pill"><i/>{offline ? 'Offline' : 'Local mode'}</span><button className="icon-button" aria-label="Open settings" onClick={() => navigate('Settings')}><Settings2 size={18}/></button><span className="profile-icon compact">Y</span></div></header>; }
+export function Topbar({
+  page,
+  offline,
+  navigate,
+  setMobile,
+}: {
+  page: Page;
+  offline: boolean;
+  navigate: (page: Page) => void;
+  setMobile: (open: boolean) => void;
+}) {
+  return (
+    <header className="topbar">
+      <div className="breadcrumb">
+        <button
+          className="icon-button mobile-menu"
+          aria-label="Open menu"
+          onClick={() => setMobile(true)}
+        >
+          <Menu size={20} />
+        </button>
+        <span>Workspace</span>
+        <ChevronRight size={13} />
+        <strong>{page}</strong>
+      </div>
+      <div className="topbar-actions">
+        <span className="local-pill">
+          <i />
+          {offline ? 'Offline' : 'Local mode'}
+        </span>
+        <button
+          className="icon-button"
+          aria-label="Open settings"
+          onClick={() => navigate('Settings')}
+        >
+          <Settings2 size={18} />
+        </button>
+        <span className="profile-icon compact">Y</span>
+      </div>
+    </header>
+  );
+}

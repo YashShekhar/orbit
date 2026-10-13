@@ -24,7 +24,11 @@ export async function createApplication(config: ServerConfig) {
   if (process.env.MODEL_BASE_URL) store.state.settings.baseUrl = process.env.MODEL_BASE_URL;
   if (process.env.MODEL_ID) store.state.settings.model = process.env.MODEL_ID;
   const services = { store, workspace, browser, engine };
-  const vite: ViteDevServer | null = config.dev ? await (await import('vite')).createServer({ root: config.root, server: { middlewareMode: true }, appType: 'spa' }) : null;
+  const vite: ViteDevServer | null = config.dev
+    ? await (
+        await import('vite')
+      ).createServer({ root: config.root, server: { middlewareMode: true }, appType: 'spa' })
+    : null;
   const server = http.createServer((req, res) => {
     void (async () => {
       try {
@@ -37,24 +41,31 @@ export async function createApplication(config: ServerConfig) {
       } catch (error) {
         if (res.headersSent) return res.end();
         const message = errorMessage(error);
-        json(res, error instanceof HttpError ? error.status : 400, { error: message === 'fetch failed' ? 'Cannot reach the provider. Check that the server is running and the base URL is correct.' : message });
+        json(res, error instanceof HttpError ? error.status : 400, {
+          error:
+            message === 'fetch failed'
+              ? 'Cannot reach the provider. Check that the server is running and the base URL is correct.'
+              : message,
+        });
       }
     })();
   });
   let interval: ReturnType<typeof setInterval> | undefined;
   let stopping: Promise<void> | undefined;
-  function startScheduler() { interval ??= setInterval(() => engine.tick(), 10000); }
+  function startScheduler() {
+    interval ??= setInterval(() => engine.tick(), 10000);
+  }
   async function shutdown(): Promise<void> {
     if (stopping) return stopping;
     stopping = (async () => {
       clearInterval(interval);
-      // Disable draining before cancelling so queued tasks cannot restart during shutdown.
-      engine.stopping = true;
-      for (const task of store.state.tasks) if (['queued', 'running', 'awaiting_approval'].includes(task.status)) engine.stop(task.id);
-      await browser.close();
+      await engine.shutdown();
       await vite?.close();
       server.closeAllConnections();
-      if (server.listening) await new Promise<void>((resolve, reject) => server.close(error => error ? reject(error) : resolve()));
+      if (server.listening)
+        await new Promise<void>((resolve, reject) =>
+          server.close((error) => (error ? reject(error) : resolve())),
+        );
     })();
     return stopping;
   }

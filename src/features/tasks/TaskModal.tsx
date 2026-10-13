@@ -3,8 +3,93 @@ import { ArrowUpRight, ArrowRight, ShieldCheck, LoaderCircle } from 'lucide-reac
 import type { Agent } from '../../../shared/types';
 import { Modal } from '../../components/ui/Modal';
 
-export function TaskModal({ agents, initialAgent, onClose, onSubmit, configured, onSettings }: { agents: Agent[]; initialAgent?: string; onClose: () => void; onSubmit: (data: { agentId: string; prompt: string }) => Promise<void>; configured: boolean; onSettings: () => void }) {
-  const [agentId, setAgent] = useState(initialAgent || agents[0].id), [prompt, setPrompt] = useState(''), [busy, setBusy] = useState(false);
-  const suggestions = ['Research a topic and save a brief', 'Build a small tool in the workspace', 'Organize notes into an action plan'];
-  return <Modal title="Hand off the work" subtitle="A clear goal. The right teammate. Room to focus." onClose={onClose}><form onSubmit={async e => { e.preventDefault(); setBusy(true); await onSubmit({ agentId, prompt }); setBusy(false); }}><label>Assign to<select value={agentId} onChange={e => setAgent(e.target.value)}>{agents.map(a => <option key={a.id} value={a.id}>{a.name} — {a.role}</option>)}</select></label><label>What would you like done?<textarea required maxLength={24000} rows={6} value={prompt} onChange={e => setPrompt(e.target.value)} placeholder="Describe the task, relevant context, and what a finished result looks like…"/></label><div className="suggestions">{suggestions.map(s => <button type="button" key={s} onClick={() => setPrompt(s)}>{s}<ArrowUpRight size={12}/></button>)}</div><div className="form-note"><ShieldCheck size={16}/> Browser interactions and shell commands require your approval.</div>{!configured && <div className="form-warning">Connect a model before assigning your first task.<button type="button" className="text-button" onClick={onSettings}>Open settings <ArrowRight size={14}/></button></div>}<div className="modal-footer"><button type="button" className="button subtle" onClick={onClose}>Cancel</button><button className="button primary" disabled={busy || !prompt.trim() || !configured}>{busy ? <LoaderCircle className="spin" size={16}/> : <ArrowUpRight size={16}/>} Assign task</button></div></form></Modal>;
+export function TaskModal({
+  agents,
+  initialAgent,
+  onClose,
+  onSubmit,
+  configured,
+  onSettings,
+}: {
+  agents: Agent[];
+  initialAgent?: string;
+  onClose: () => void;
+  onSubmit: (data: { agentId: string; prompt: string }) => Promise<void>;
+  configured: boolean;
+  onSettings: () => void;
+}) {
+  const [agentId, setAgent] = useState(initialAgent || agents[0].id),
+    [prompt, setPrompt] = useState(''),
+    [busy, setBusy] = useState(false);
+  const suggestions = [
+    'Research a topic and save a brief',
+    'Build a small tool in the workspace',
+    'Organize notes into an action plan',
+  ];
+  return (
+    <Modal
+      title="Hand off the work"
+      subtitle="A clear goal. The right teammate. Room to focus."
+      onClose={onClose}
+    >
+      <form
+        onSubmit={async (e) => {
+          e.preventDefault();
+          setBusy(true);
+          await onSubmit({ agentId, prompt });
+          setBusy(false);
+        }}
+      >
+        <label>
+          Assign to
+          <select value={agentId} onChange={(e) => setAgent(e.target.value)}>
+            {agents.map((a) => (
+              <option key={a.id} value={a.id}>
+                {a.name} — {a.role}
+              </option>
+            ))}
+          </select>
+        </label>
+        <label>
+          What would you like done?
+          <textarea
+            required
+            maxLength={24000}
+            rows={6}
+            value={prompt}
+            onChange={(e) => setPrompt(e.target.value)}
+            placeholder="Describe the task, relevant context, and what a finished result looks like…"
+          />
+        </label>
+        <div className="suggestions">
+          {suggestions.map((s) => (
+            <button type="button" key={s} onClick={() => setPrompt(s)}>
+              {s}
+              <ArrowUpRight size={12} />
+            </button>
+          ))}
+        </div>
+        <div className="form-note">
+          <ShieldCheck size={16} /> Browser interactions and shell commands require your approval.
+        </div>
+        {!configured && (
+          <div className="form-warning">
+            Connect a model before assigning your first task.
+            <button type="button" className="text-button" onClick={onSettings}>
+              Open settings <ArrowRight size={14} />
+            </button>
+          </div>
+        )}
+        <div className="modal-footer">
+          <button type="button" className="button subtle" onClick={onClose}>
+            Cancel
+          </button>
+          <button className="button primary" disabled={busy || !prompt.trim() || !configured}>
+            {busy ? <LoaderCircle className="spin" size={16} /> : <ArrowUpRight size={16} />} Assign
+            task
+          </button>
+        </div>
+      </form>
+    </Modal>
+  );
 }
