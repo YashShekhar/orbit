@@ -25,7 +25,7 @@
     "prepare": "node scripts/install-hooks.ts"
   },
   "dependencies": {
-    "lucide-react": "^1.56.0",
+    "lucide-react": "^1.60.0",
     "playwright": "^1.64.0",
     "react": "^19.3.0",
     "react-dom": "^19.3.0",
